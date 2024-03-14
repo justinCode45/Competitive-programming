@@ -10,40 +10,30 @@ int main()
 
     int n ;
     cin >> n;
-    vector<int> h(n);
+    int h[n];
     for(int i = 0; i < n; i++)
     {
         cin >> h[i];
     }
-    sort(h.begin(), h.end());
-    int ans = 0;
+    sort(h, h+n);
+    
+    int dp[n];
 
-    while (!h.empty())
+    for (int i = 0;i < n; i++)
     {
-        int min_h = *h.begin();
-        
-        if (min_h <= h.size())
-        {
-            ans += 1 ;
-            for (int i = 0; i < h.size(); i++)
-            {
-                h[i] -= 1;
-                if (h[i] == 0)
-                {
-                    h.erase(h.begin() + i);
-                    i--;
-                }
-            }
-        }
-        else
-        {
-            ans += h.size();
-            break;
-        }
+        dp[i] = h[i] + (n-i-1);
     }
-        
 
-    cout << ans;
+    // for (int i = 0;i < n; i++)
+    // {
+    //     cout << dp[i] << " ";
+    // }
+    // cout << endl;
+    int minma = *min_element(dp,dp+n);
 
+    if (minma < n)
+        cout << minma;
+    else    
+        cout << n;
     return 0;
 }

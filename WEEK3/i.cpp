@@ -1,62 +1,62 @@
 #include <iostream>
+#include <list>
+#include <sstream>
 #include <string>
-#include <stack>
 using namespace std;
 
 int main()
 {
-    int n;
-    cin >> n;
-    string s;
-    cin.ignore(100,'\n');
-    getline(cin,s);
-
-    stack<char> deli;
-    int ans_index = -1;
-
-    for (int i = 0; i < s.length(); i++)
+    int t;
+    cin >> t;
+    cin.ignore(100, '\n');
+    for (int i = 0; i < t; i++)
     {
-        
-        if (s[i] == '(' || s[i] == '[' || s[i] == '{')
+        string ans = "";
+        string buffer = "";
+        string line;
+        getline(cin, line);
+        stringstream ss(line);
+        char input;
+        int after = 1;
+        while (1)
         {
-            deli.push(s[i]);
-        }
-        else if (s[i] == ')' || s[i] == ']' || s[i] == '}')
-        {
-            if (deli.empty())
-            {
-                ans_index = i;
+            ss >> input ;
+            if (ss.fail())
                 break;
-            }
-            char top = deli.top();
-            deli.pop();        
-            if (top == '(' && s[i] == ')')
+            if (input == '[')
             {
-                continue;
+                if (after)
+                    ans = ans + buffer;
+                else 
+                    ans = buffer + ans;
+                after = 0;
+                buffer = "";
             }
-            if (top == '[' && s[i] == ']')
+            else if (input == ']')
             {
-                continue;
+                if (after)
+                    ans = ans + buffer;
+                else 
+                    ans = buffer + ans;
+                after = 1;
+                buffer = "";
             }
-            if (top == '{' && s[i] == '}')
+            else if (input == '<')
             {
-                continue;
+                buffer.erase(buffer.length() - 1);
             }
-
-            ans_index = i;
-            break;
+            else
+            {
+                buffer += input;
+            }
         }
-    }
+        if (after)
+            ans = ans + buffer;
+        else 
+            ans = buffer + ans;
+        cout << ans << endl;
 
-    if (ans_index != -1)
-    {
-        cout << s[ans_index] << " " << ans_index;
     }
-    else
-    {
-        cout << "ok so far";
-    }
-
 
     return 0;
 }
