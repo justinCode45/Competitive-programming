@@ -1,37 +1,53 @@
 #include <iostream>
 #include <string>
+#include <list>
+
 using namespace std;
 
 int main()
 {
     int n;
     cin >> n;
-    for (int i = 0; i < n; i++)
+    cin.ignore(100, '\n');
+    while (n--)
     {
-        string s, ans;
-        cin >> s;
-        int cur = 0;
-        for (int j = 0; j < s.length(); j++)
+        list<char> ans;
+        string input;
+        getline(cin, input);
+
+        auto it = ans.begin();
+
+        for (int i = 0; i < input.length(); i++)
         {
-            if (s[j] == '<')
+            char c = input[i];
+
+            if (c == '<' )
             {
-                
-                cur--;
+                if (it != ans.begin())
+                {
+                    it--;
+                    it = ans.erase(it);
+                }
+                continue;
             }
-            else if (s[j] == '[')
+            if (c == '[')
             {
-                cur = 0;
+                it = ans.begin();
+                continue;
             }
-            else if (s[j] == ']')
+            if (c == ']')
             {
-                cur = ans.length() - 1;
+                it = ans.end();
+                continue;
             }
-            else
-            {
-                ans.insert(cur, 1, s[j]);
-                cur++;
-            }
+            ans.insert(it, c);
         }
+
+        for (auto i : ans)
+        {
+            cout << i;
+        }
+        cout << endl;
     }
 
     return 0;
