@@ -6,7 +6,7 @@ int *network;
 
 int find(int x)
 {
-    if (network[x] = x)
+    if (network[x] == x)
         return x;
     return network[x] = find(network[x]);
 }
@@ -14,10 +14,7 @@ void union_(int a, int b)
 {
     int roota = find(a);
     int rootb = find(b);
-    if (roota < rootb)
-        network[b] = roota;
-    else
-        network[a] = rootb;
+    network[max(roota,rootb)] = min(roota,rootb);
 }
 
 int main()
@@ -35,13 +32,18 @@ int main()
         cin >> a >> b;
         union_(a, b);
     }
+    bool flag = 1;
     for (int i = 1; i < N + 1; i++)
     {
         if (find(i) != 1)
         {
             cout << i << endl;
+            flag = 0;
         }
     }
-
+    if (flag)
+    {
+        cout << "Connected";
+    }
     return 0;
 }
